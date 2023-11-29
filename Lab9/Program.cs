@@ -25,10 +25,19 @@ namespace Lab9
 
             Console.WriteLine(inventory1);
 
-            InventoryFilter sorter = new InventoryFilter();
+            InventoryFilter filter = new InventoryFilter();
+            InventorySorter sorter = new InventorySorter();
+
 
             //Стандартный делегат
-            HashSet<Item> filteredInventory = sorter.FilteredInventory(inventory1.InventoryList, InventoryFilter.FilterQuantityLower, 10);
+            InventorySorter.ItemFilterDelegate filterDelegate = item => item.Durability >= 90;
+            sorter.BubbleSort(inventory1.InventoryList, filterDelegate);
+
+            Console.WriteLine("\nОтсортированный инвентарь:");
+            Console.WriteLine(inventory1);
+
+            //Стандартный делегат
+            HashSet<Item> filteredInventory = filter.FilteredInventory(inventory1.InventoryList, InventoryFilter.FilterQuantityLower, 10);
             Console.WriteLine("Отфильтрованные предметы по количеству");
             foreach (Item item in filteredInventory)
             {
@@ -41,7 +50,7 @@ namespace Lab9
             };
 
             //Использование анонимной функции
-            HashSet<Item> filteredInventory1 = sorter.FilteredInventory(inventory1.InventoryList, searchDurabilityLower, 10);
+            HashSet<Item> filteredInventory1 = filter.FilteredInventory(inventory1.InventoryList, searchDurabilityLower, 10);
             Console.WriteLine("Отфильтрованные предметы по прочности");
             foreach (Item item in filteredInventory1)
             {
@@ -49,7 +58,7 @@ namespace Lab9
             }
 
             //Использование лямбда-выражения
-            HashSet<Item> filteredInventory2= sorter.FilteredInventory(inventory1.InventoryList, (item, filterValue) => item.Quantity > filterValue, 3);
+            HashSet<Item> filteredInventory2= filter.FilteredInventory(inventory1.InventoryList, (item, filterValue) => item.Quantity > filterValue, 3);
             Console.WriteLine("Отфильтрованные предметы по количеству");
             foreach (Item item in filteredInventory2)
             {
