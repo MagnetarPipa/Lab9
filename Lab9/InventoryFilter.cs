@@ -19,17 +19,24 @@ namespace Lab9
         /// <returns></returns>
         public HashSet<Item> FilteredInventory(HashSet<Item> inventory, FilterDelegate filterDelegate, uint filterValue)
         {
-            HashSet<Item> filteredItems = new HashSet<Item>();
-
-            foreach (Item item in inventory)
+            if (inventory != null && filterDelegate != null)
             {
-                if (filterDelegate(item, filterValue))
-                {
-                    filteredItems.Add(item);
-                }
-            }
+                HashSet<Item> filteredItems = new HashSet<Item>();
 
-            return filteredItems;
+                foreach (Item item in inventory)
+                {
+                    if (filterDelegate(item, filterValue))
+                    {
+                        filteredItems.Add(item);
+                    }
+                }
+
+                return filteredItems;
+            }
+            else
+            {
+                throw new ArgumentNullException("Значение не может быть null");
+            }
         }
 
         public static bool FilterQuantityLower(Item item, uint value)
